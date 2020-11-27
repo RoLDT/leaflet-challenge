@@ -1,4 +1,4 @@
-var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_month.geojson"
+var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson"
 
 d3.json(queryUrl, function(data) {
     createFeatures(data.features);
@@ -12,7 +12,43 @@ function createFeatures(earthquakeData) {
         "</h3><hr><p>When: " + new Date(feature.properties.time) + "</p>");
     }
 
+    //Establish the radius and color functions before creating the earthquakes map.
+    function circleRadius(mag){
+        return mag * 50000;
+    }
+
+    function circleColor(mag){
+        if (mag >= 5) {
+            return "#FF0000";//red
+        }
+        else if (mag >= 4){
+            return "#FF8C00";//darkorange
+        }
+        else if (mag >= 3){
+            return "#FFD700";//gold"#FFFF00"
+        }
+        else if (mag >= 2){
+            return "#FFFF00";//yellow
+        }
+        else if (mag >= 1){
+            return "#32CD32";//limegreen
+        }
+        else {
+            return "#7CFC00";//lawngreen
+        }
+    }
+
     var earthquakes = L.geoJSON(earthquakeData, {
+        //Use "pointToLayer" to turn markers into circles by adding a circle layer to the earthquake map.
+        pointToLayer: function(earthquakeData, latlng){
+            return L.circle(latlng, {
+                radius: circleRadius(earthquakeData.properties.mag),
+                fillColor: circleColor(earthquakeData.properties.mag),
+                color: "white",
+                stroke: .1,
+                fillOpacity: .8
+            });
+        },
         //Needed to be called "OnEachFeature" and not anything else as I had it before.
         onEachFeature: onEachFeature
     });
