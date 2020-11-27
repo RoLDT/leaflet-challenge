@@ -2,17 +2,19 @@ var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/4.5_mo
 
 d3.json(queryUrl, function(data) {
     createFeatures(data.features);
-    console.log(data);
+    console.log(data.features);
+    //each feature was read correctly.
 });
 
 function createFeatures(earthquakeData) {
-    function onEach(feature, layer) {
-        layer.bindPopup("<h3>" + feature.properties.place +
-        "</h3><hr><p>" + new Date(feature.properties.time) + "</p>");
+    function onEachFeature(feature, layer) {
+        layer.bindPopup("<h2>Magnitude: "+ feature.properties.mag +"</h2><hr>" + "<h3>Where: " + feature.properties.place +
+        "</h3><hr><p>When: " + new Date(feature.properties.time) + "</p>");
     }
 
     var earthquakes = L.geoJSON(earthquakeData, {
-        onEach: onEach
+        //Needed to be called "OnEachFeature" and not anything else as I had it before.
+        onEachFeature: onEachFeature
     });
 
     createMap(earthquakes);
