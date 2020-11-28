@@ -79,6 +79,38 @@ function createMap(earthquakes) {
     L.control.layers("", overlayMaps,{
         collapsed: false
     }).addTo(myMap);
+
+    function legendColor(x){
+        if (x >= 5) {
+            return "#FF0000";//red
+        }
+        else if (x >= 4){
+            return "#FF8C00";//darkorange
+        }
+        else if (x >= 3){
+            return "#FFD700";//gold"#FFFF00"
+        }
+        else if (x >= 2){
+            return "#FFFF00";//yellow
+        }
+        else if (x >= 1){
+            return "#32CD32";//limegreen
+        }
+        else {
+            return "#7CFC00";//lawngreen
+        }
+    }
+
+    
+    var legend = L.control({position: "bottomright"});
+
+    legend.onAdd = function(){
+        var div = L.DomUtil.create("div", "info legend"),
+        magnitudes = [0,1,2,3,4,5],
+        
+    
+
+    }
 }
 
 
