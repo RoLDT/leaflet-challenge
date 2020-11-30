@@ -105,12 +105,23 @@ function createMap(earthquakes) {
     var legend = L.control({position: "bottomright"});
 
     legend.onAdd = function(){
-        var div = L.DomUtil.create("div", "info legend"),
-        magnitudes = [0,1,2,3,4,5],
+        var div = L.DomUtil.create("div", "legend"),
+        magnitudes = [0,1,2,3,4,5];
         
-    
+        var legendInfo = "<h2>Magnitudes</h2>" +
+        "<p class='mag5'>Magnitude 5+</p>" +
+        "<p class='mag4'>Magnitude 4-5</p>" +
+        "<p class='mag3'>Magnitude 3-4</p>" +
+        "<p class='mag2'>Magnitude 2-3</p>" +
+        "<p class='mag1'>Magnitude 1-2</p>";
 
-    }
+        div.innerHTML = legendInfo;
+
+        return div
+
+    };
+
+    legend.addTo(myMap);
 }
 
 
